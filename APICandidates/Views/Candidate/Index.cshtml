@@ -1,0 +1,48 @@
+﻿@using Domain.Services.Candidates.Dtos
+@using Infrastructure.Utils.Models
+@{
+    ViewData["Title"] = "Candidatos";
+}
+
+@model Response<PagedResult<GetCandidate>>
+
+<h2>Lista de Candidatos</h2>
+
+@if (Model?.Errors?.Any() ?? false)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in Model.Errors)
+        {
+            <p>@error.Message</p>
+        }
+    </div>
+}
+
+<a asp-action="Create" class="btn btn-primary">Crear Nuevo Candidato</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model!.Body != null)
+        {
+            @foreach (var candidate in Model.Body.Items)
+            {
+                <tr>
+                    <td>@candidate.Name</td>
+                    <td>@candidate.Surname</td>
+                    <td>@candidate.Email</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-email="@candidate.Email" class="btn btn-warning">Editar</a>
+                        <a asp-action="Delete" asp-route-id="@candidate.IdCandidate" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            }        
+        }
+    </tbody>
+</table>

@@ -1,0 +1,102 @@
+﻿@using Domain.Services.Candidates.Dtos
+@using Infrastructure.Utils.Models
+
+@model CreateCandidate
+
+@{
+    ViewData["Title"] = "Crear Candidato";
+    var response = ViewBag.Response as Response<GetCandidate>;
+}
+
+<h2>Crear Nuevo Candidato</h2>
+
+@if (response?.Errors?.Any() ?? false)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in response.Errors)
+        {
+            <p>@error.Message</p>
+        }
+    </div>
+}
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Birthdate"></label>
+        <input asp-for="Birthdate" type="date" class="form-control" />
+        <span asp-validation-for="Birthdate" class="text-danger"></span>
+    </div>
+    <br>
+    <h3>Experiencias Laborales</h3>
+    <br>
+
+    <div id="experiences">
+    </div>
+    <br>
+
+    <button type="button" class="btn btn-secondary" onclick="addExperience()">Agregar Experiencia</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>
+
+<script>
+    let experienceCount = 0;
+
+    function addExperience() {
+        let experienceId = `experience-${experienceCount}`;
+        let newExperience = `
+                <div id="${experienceId}" class="experience-item">
+                    <div class="form-group">
+                        <label>Empresa</label>
+                        <input name="Experiences[${experienceCount}].Company" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Puesto</label>
+                        <input name="Experiences[${experienceCount}].Job" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea name="Experiences[${experienceCount}].Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Salario</label>
+                        <input name="Experiences[${experienceCount}].Salary" type="number" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Inicio</label>
+                        <input name="Experiences[${experienceCount}].BeginDate" type="date" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Fin</label>
+                        <input name="Experiences[${experienceCount}].EndDate" type="date" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="removeExperience('${experienceId}')">Eliminar Experiencia</button>
+                </div>
+                <br>
+            `;
+        document.getElementById("experiences").insertAdjacentHTML("beforeend", newExperience);
+        experienceCount++;
+    }
+
+    function removeExperience(experienceId) {
+        document.getElementById(experienceId).remove();
+    }
+</script>

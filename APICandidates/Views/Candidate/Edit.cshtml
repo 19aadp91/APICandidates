@@ -1,0 +1,135 @@
+﻿@using Domain.Services.Candidates.Dtos
+@using Infrastructure.Utils.Models
+@model UpdateCandidate
+
+@{
+    ViewData["Title"] = "Editar Candidato";
+    var response = ViewBag.Response as Response<GetCandidate>;
+}
+
+<h2>Editar Candidato</h2>
+
+@if (response?.Errors?.Any() ?? false)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in response.Errors)
+        {
+            <p>@error.Message</p>
+        }
+    </div>
+}
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="IdCandidate" />
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Surname"></label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Birthdate"></label>
+        <input asp-for="Birthdate" type="date" class="form-control" />
+        <span asp-validation-for="Birthdate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" readonly />
+    </div>
+
+    <h3>Experiencias Laborales</h3>
+
+    <div id="experiences">
+        @if (Model != null && Model.Experiences != null && Model.Experiences.Any())
+        {
+            @for (var i = 0; i < Model.Experiences.Count; i++)
+            {
+                <div id="experience-@i" class="experience-item">
+                    <input type="hidden" name="Experiences[@i].IdCandidate" value="@Model.Experiences[i].IdCandidate" />
+
+                    <div class="form-group">
+                        <label>Empresa</label>
+                        <input name="Experiences[@i].Company" class="form-control" value="@Model.Experiences[i].Company" />
+                    </div>
+                    <div class="form-group">
+                        <label>Puesto</label>
+                        <input name="Experiences[@i].Job" class="form-control" value="@Model.Experiences[i].Job" />
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea name="Experiences[@i].Description" class="form-control">@Model.Experiences[i].Description</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Salario</label>
+                        <input name="Experiences[@i].Salary" type="number" class="form-control" value="@Model.Experiences[i].Salary.ToString("G")" />
+                        <p>Salario: @Model.Experiences[i].Salary</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Inicio</label>
+                        <input name="Experiences[@i].BeginDate" type="date" class="form-control" value="@Model.Experiences[i].BeginDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Fin</label>
+                        <input name="Experiences[@i].EndDate" type="date" class="form-control" value="@Model.Experiences[i].EndDate?.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="removeExperience('experience-@i')">Eliminar Experiencia</button>
+                </div>
+            }
+        }
+    </div>
+
+    <button type="button" class="btn btn-secondary" onclick="addExperience()">Agregar Experiencia</button>
+    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+<script>
+    let experienceCount = document.querySelectorAll(".experience-item").length;
+
+    function addExperience() {
+        let experienceId = `experience-${experienceCount}`;
+        let newExperience = `
+                <div id="${experienceId}" class="experience-item">
+                    <div class="form-group">
+                        <label>Empresa</label>
+                        <input name="Experiences[${experienceCount}].Company" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Puesto</label>
+                        <input name="Experiences[${experienceCount}].Job" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea name="Experiences[${experienceCount}].Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Salario</label>
+                        <input name="Experiences[${experienceCount}].Salary" type="number" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Inicio</label>
+                        <input name="Experiences[${experienceCount}].BeginDate" type="date" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Fin</label>
+                        <input name="Experiences[${experienceCount}].EndDate" type="date" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="removeExperience('${experienceId}')">Eliminar Experiencia</button>
+                </div>
+            `;
+        document.getElementById("experiences").insertAdjacentHTML("beforeend", newExperience);
+        experienceCount++;
+    }
+
+    function removeExperience(experienceId) {
+        document.getElementById(experienceId).remove();
+    }
+</script>
