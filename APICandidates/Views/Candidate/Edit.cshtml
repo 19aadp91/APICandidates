@@ -53,6 +53,7 @@
             @for (var i = 0; i < Model.Experiences.Count; i++)
             {
                 <div id="experience-@i" class="experience-item">
+                    <input type="hidden" name="Experiences[@i].IdCandidatesExperiences" value="@Model.Experiences[i].IdCandidatesExperiences" />
                     <input type="hidden" name="Experiences[@i].IdCandidate" value="@Model.Experiences[i].IdCandidate" />
 
                     <div class="form-group">
@@ -69,8 +70,7 @@
                     </div>
                     <div class="form-group">
                         <label>Salario</label>
-                        <input name="Experiences[@i].Salary" type="number" class="form-control" value="@Model.Experiences[i].Salary.ToString("G")" />
-                        <p>Salario: @Model.Experiences[i].Salary</p>
+                        <input name="Experiences[@i].Salary" type="number" step="0.01" class="form-control" value="@Model.Experiences[i].Salary.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" />
                     </div>
                     <div class="form-group">
                         <label>Fecha de Inicio</label>
@@ -83,6 +83,7 @@
                     <button type="button" class="btn btn-danger" onclick="removeExperience('experience-@i')">Eliminar Experiencia</button>
                 </div>
             }
+
         }
     </div>
 
@@ -96,35 +97,40 @@
 
     function addExperience() {
         let experienceId = `experience-${experienceCount}`;
+        const idCandidate = document.querySelector('[name=IdCandidate]').value;
+
         let newExperience = `
-                <div id="${experienceId}" class="experience-item">
-                    <div class="form-group">
-                        <label>Empresa</label>
-                        <input name="Experiences[${experienceCount}].Company" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Puesto</label>
-                        <input name="Experiences[${experienceCount}].Job" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Descripción</label>
-                        <textarea name="Experiences[${experienceCount}].Description" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Salario</label>
-                        <input name="Experiences[${experienceCount}].Salary" type="number" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de Inicio</label>
-                        <input name="Experiences[${experienceCount}].BeginDate" type="date" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha de Fin</label>
-                        <input name="Experiences[${experienceCount}].EndDate" type="date" class="form-control" />
-                    </div>
-                    <button type="button" class="btn btn-danger" onclick="removeExperience('${experienceId}')">Eliminar Experiencia</button>
+            <div id="${experienceId}" class="experience-item">
+                <input type="hidden" name="Experiences[${experienceCount}].IdCandidatesExperiences" value="0" />
+                <input type="hidden" name="Experiences[${experienceCount}].IdCandidate" value="${idCandidate}" />
+
+                <div class="form-group">
+                    <label>Empresa</label>
+                    <input name="Experiences[${experienceCount}].Company" class="form-control" />
                 </div>
-            `;
+                <div class="form-group">
+                    <label>Puesto</label>
+                    <input name="Experiences[${experienceCount}].Job" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea name="Experiences[${experienceCount}].Description" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Salario</label>
+                    <input name="Experiences[${experienceCount}].Salary" type="number" step="0.01" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Inicio</label>
+                    <input name="Experiences[${experienceCount}].BeginDate" type="date" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Fin</label>
+                    <input name="Experiences[${experienceCount}].EndDate" type="date" class="form-control" />
+                </div>
+                <button type="button" class="btn btn-danger" onclick="removeExperience('${experienceId}')">Eliminar Experiencia</button>
+            </div>
+        `;
         document.getElementById("experiences").insertAdjacentHTML("beforeend", newExperience);
         experienceCount++;
     }

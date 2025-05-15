@@ -4,7 +4,6 @@ using DataAccess.Models;
 using Domain.Services.Candidates.Dtos;
 using Infrastructure.Utils.Models;
 using Infrastructure.Utils.UnitOfWork;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Domain.Services.Candidates.BusinessLogic
 {

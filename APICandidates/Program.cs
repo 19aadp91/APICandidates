@@ -6,7 +6,7 @@ try
 
     // Add services to the container.
     builder.Services.AddControllersWithViews();
-    builder.Services.AddServices(); 
+    builder.Services.AddServices(builder.Configuration); 
 
     var app = builder.Build();
 
