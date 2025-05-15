@@ -76,7 +76,7 @@ Para crear la base de datos usando Entity Framework Core, sigue estos pasos desd
 3. Ejecuta los siguientes comandos:
 
 ```powershell
-Add-Migration InitialCreate
+Add-Migration InitialCreate (si no esxite la carpeta Migrations en la capa APICandidates ejecuta este comando de lo contrario sigue con el siguiente)
 Update-Database
 ```
 
