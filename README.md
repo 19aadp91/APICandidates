@@ -17,7 +17,7 @@ Aplicación ASP.NET Core MVC con arquitectura en capas para la gestión de candi
 
 ## 🧱 Requisitos
 
-- .NET 7.0 o superior
+- .NET 8.0 o superior
 - SQL Server Express (u otra versión de SQL Server)
 - Visual Studio 2022 o superior
 
