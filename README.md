@@ -27,7 +27,10 @@ Aplicación ASP.NET Core MVC con arquitectura en capas para la gestión de candi
 
 ### 1. Clona el repositorio
 
-git clone https://github.com/19aadp91/APICandidates.git
-cd APICandidates
+- git clone https://github.com/19aadp91/APICandidates.git
+- cd APICandidates
 
 ### 2. Configura la cadena de conexión
+"ConnectionStrings": {
+  "DefaultConnection": "Server=LAPTOP-6PTE51VD\\SQLEXPRESS;Database=CandidatesDB;Trusted_Connection=True;TrustServerCertificate=True;"
+}
