@@ -31,6 +31,20 @@ Aplicación ASP.NET Core MVC con arquitectura en capas para la gestión de candi
 - cd APICandidates
 
 ### 2. Configura la cadena de conexión
+
+- Abre el archivo appsettings.json y ajusta la conexión a tu instancia de SQL Server:
 "ConnectionStrings": {
   "DefaultConnection": "Server=LAPTOP-6PTE51VD\\SQLEXPRESS;Database=CandidatesDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
+
+---
+
+## 🛠️ Migraciones de Base de Datos
+
+Para crear la base de datos usando Entity Framework Core, sigue estos pasos desde Visual Studio:
+
+- Abre el Administrador de paquetes de NuGet (Tools > NuGet Package Manager > Package Manager Console)
+- Selecciona el proyecto de inicio (por ejemplo APICandidates) si es necesario.
+- Ejecuta los siguientes comandos:
+-- Add-Migration InitialCreate
+-- Update-Database
