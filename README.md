@@ -28,7 +28,7 @@ Aplicación ASP.NET Core MVC con arquitectura en capas para la gestión de candi
 ### 1. Clona el repositorio
 
 ```bash
-git clone https://github.com/tuusuario/APICandidates.git
+git clone https://github.com/19aadp91/APICandidates.git
 cd APICandidates
 ```
 
